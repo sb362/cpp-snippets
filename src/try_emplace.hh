@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <type_traits>
 #include <unordered_map>
@@ -14,14 +15,9 @@ struct lazy_invoke {
 };
 
 
-auto make_int() {
-	return std::make_unique<int>(1 + 1);
-}
-
-template <typename K, typename F>
-auto make_int_cached(const K &key) {
-	static std::unordered_map<int, std::unique_ptr<int>> cache;
-	auto [it, res] = map.try_emplace(key, lazy_invoke(make_int));
+auto make_int_cached(int key) {
+	static std::unordered_map<int, int> cache;
+	auto [it, res] = cache.try_emplace(key, lazy_invoke([] { return 1 + 1; }));
 	return it->second;
 }
 
