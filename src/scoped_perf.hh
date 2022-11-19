@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <chrono>
 
 using std::chrono::duration_cast;
@@ -53,7 +54,7 @@ public:
 
 	void start() { running = true; sw.reset(); }
 	void stop() { dt = sw.elapsed<decltype(dt)>(); running = false; }
-	void report() { std::cout << "{} took {} ms" << dt << std::endl; }
+	void report() { std::cout << name << " took " << dt.count() << " ms" << std::endl; }
 
 	auto elapsed() const { return dt; }
 
